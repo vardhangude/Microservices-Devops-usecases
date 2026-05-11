@@ -1,5 +1,7 @@
 # Resolving `/tmp` Disk Space and Jenkins Temp Space Issues on Linux/EC2
 
+<img width="400" height="253" alt="UC-2" src="https://github.com/user-attachments/assets/bc162b77-32a4-4a10-afe4-60715562eae8" />
+
 ## Problem
 
 Monitoring alert:
@@ -279,6 +281,4 @@ sudo du -sh /var/lib/jenkins/*
 
 ---
 
-# Author
 
-Infrastructure / Jenkins Troubleshooting Notes
