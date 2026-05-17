@@ -317,3 +317,81 @@ make change → git add/commit → git push
 ---
 
 *Tools: git · github · JDK · Maven · Jenkins · Groovy (declarative pipeline)*
+
+
+# Jenkins Build Debugging
+
+## Error
+
+```text
+The JAVA_HOME environment variable is not defined correctly
+```
+
+## Root Cause
+
+Jenkins cannot find the correct Java path during Maven build.
+
+---
+
+# Verify Java Path
+
+Run on EC2:
+
+```bash
+readlink -f $(which java)
+```
+
+Example output:
+
+```text
+/usr/lib/jvm/java-21-amazon-corretto/bin/java
+```
+
+Final JAVA_HOME:
+
+```text
+/usr/lib/jvm/java-21-amazon-corretto
+```
+
+---
+
+# Configure Jenkins
+
+Go to:
+
+```text
+Manage Jenkins → Tools → JDK Installations
+```
+
+Add:
+
+| Field | Value |
+|---|---|
+| Name | JDK-21 |
+| JAVA_HOME | /usr/lib/jvm/java-21-amazon-corretto |
+
+---
+
+# Jenkinsfile
+
+```groovy
+tools {
+    jdk 'JDK-21'
+    maven 'Maven-3'
+}
+```
+
+---
+
+# Debug Stage
+
+```groovy
+stage('Debug') {
+    steps {
+        sh 'echo $JAVA_HOME'
+        sh 'java -version'
+        sh 'mvn -version'
+    }
+}
+```
+
